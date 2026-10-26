@@ -1,0 +1,67 @@
+# This repo's merge gate calls kitchen's shared workflow using its moving release tag.
+# The canonical ref lives in kitchen's gate/CALLER_REF; keep this file in sync with that file.
+# `workflow_run` runs the copy of this file on `main`, so a pull request cannot rewrite the gate that judges it.
+# `workflow_dispatch` carries a CI hand-off from repos that need it.
+name: Merge gate
+run-name: Merge gate ${{ github.event.workflow_run.head_sha || github.event.inputs.head_sha || github.event.sha || github.run_id }}
+
+on:
+  workflow_run:
+    # ci-required.yml: the path-aware pull request workflow that calls the surface CI workflows (ci-android.yml and
+    # the others). The gate only acts on a successful pull_request run, which the surface workflows never have.
+    workflows: ["Required checks"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      head_sha:
+        description: Pull request head to judge
+        required: true
+        type: string
+      ci_run_id:
+        description: Successful CI run for that head
+        required: true
+        type: string
+      head_branch:
+        description: Pull request head branch
+        required: true
+        type: string
+
+jobs:
+  gate:
+    # The called gate's jobs ask for these; a caller that grants less fails at startup.
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      deployments: read
+      checks: read
+      statuses: write
+      actions: write
+      id-token: write
+    uses: omarabdo516/kitchen/.github/workflows/merge-gate.yml@gate-v1
+    with:
+      runner: agent
+      # Kitchen units start from dev and open their pull requests into dev (projects/hermes-relay/project.conf).
+      integration_bases: 'dev'
+      # Paths that require a full review: the gates themselves, bot instructions, release and store plumbing,
+      # signing material. After review, these paths follow the ordinary route.
+      human_paths: '^\.github/|^AGENTS\.md$|^CONTRIBUTING\.md$|(^|/)(keystore|signing|credentials?)[^/]*|^scripts/release|^app/build\.gradle\.kts$|^app/src/main/AndroidManifest\.xml$'
+      # A door whose effect a revert cannot undo: a PASS that touches one is held for Omar, not merged. Empty = none.
+      one_way_paths: ''
+      production_url: ""   # empty = no live site to check
+      no_production_reason: "Hermes-Relay is an Android app released through the Play workflows; it has no web production to check."
+      head_sha: ${{ inputs.head_sha }}
+      ci_run_id: ${{ inputs.ci_run_id }}
+      head_branch: ${{ inputs.head_branch }}
+      reviewers: 'opus'
+      live_check: false
+      status_handoff: false
+      # K15 (kitchen gate): a pull request built by Kitchen (kitchen/* branch or kitchen:* label) merges only with the
+      # judge's kitchen/judge PASS status on its exact head. Other pull requests are reviewed as before.
+      kitchen_judge: require
+      # Kitchen units set kitchen/judge with the omar-kitchen GitHub App (kitchen#75), so its bot login counts too.
+      judge_actors: 'omarabdo516,omar-kitchen[bot]'
+    secrets:
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      HERMES_MERGE_GATE_PRIVATE_KEY: ${{ secrets.HERMES_MERGE_GATE_PRIVATE_KEY }}
