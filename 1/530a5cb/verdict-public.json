@@ -1,0 +1,55 @@
+{
+  "verdict": "PASS",
+  "score": 8.17,
+  "pass_score": 7.5,
+  "judge": "claude:claude-opus-5-5@medium",
+  "head_sha": "530a5cbbaccfb9c52d1a1fed5861e707cb0396f4",
+  "rubric": {
+    "domain": "code",
+    "version": "4"
+  },
+  "scores": [
+    {
+      "criterion": "correctness",
+      "score": 8.0
+    },
+    {
+      "criterion": "requirements",
+      "score": 8.0
+    },
+    {
+      "criterion": "tests",
+      "score": 7.0
+    },
+    {
+      "criterion": "security",
+      "score": 10.0
+    },
+    {
+      "criterion": "simplicity",
+      "score": 6.0
+    },
+    {
+      "criterion": "data",
+      "score": 10.0
+    }
+  ],
+  "findings": [
+    {
+      "severity": "major",
+      "criterion": "simplicity",
+      "title": "Unrelated production API change and flaky-test rewrites bundled into the RTL PR"
+    },
+    {
+      "severity": "minor",
+      "criterion": "tests",
+      "title": "Bubble alignment test never runs under the LTR layout of an English-locale phone"
+    },
+    {
+      "severity": "minor",
+      "criterion": "requirements",
+      "title": "No evidence that the sideload APK's application ID differs from the official apps"
+    }
+  ],
+  "dropped": 1
+}
