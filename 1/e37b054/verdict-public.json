@@ -1,0 +1,60 @@
+{
+  "verdict": "PASS",
+  "score": 7.92,
+  "pass_score": 7.5,
+  "judge": "claude:claude-opus-5-5@medium",
+  "head_sha": "e37b054186571b443cc8849ff8bb0cf18d70ff50",
+  "rubric": {
+    "domain": "code",
+    "version": "4"
+  },
+  "scores": [
+    {
+      "criterion": "correctness",
+      "score": 8.0
+    },
+    {
+      "criterion": "requirements",
+      "score": 7.0
+    },
+    {
+      "criterion": "tests",
+      "score": 7.0
+    },
+    {
+      "criterion": "security",
+      "score": 10.0
+    },
+    {
+      "criterion": "simplicity",
+      "score": 6.0
+    },
+    {
+      "criterion": "data",
+      "score": 10.0
+    }
+  ],
+  "findings": [
+    {
+      "severity": "major",
+      "criterion": "requirements",
+      "title": "Done-when assembleDebug not evidenced; only the sideload variant was assembled"
+    },
+    {
+      "severity": "major",
+      "criterion": "requirements",
+      "title": "No before/after screenshots produced for the upstream PR"
+    },
+    {
+      "severity": "minor",
+      "criterion": "simplicity",
+      "title": "Unrelated production change and flaky-test fixes mixed into the RTL PR"
+    },
+    {
+      "severity": "minor",
+      "criterion": "tests",
+      "title": "Mutation check did not run (addy test-review missing)"
+    }
+  ],
+  "dropped": 0
+}

@@ -1,0 +1,41 @@
+$ ./gradlew lint
+Reusing configuration cache.
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preGooglePlayDebugBuild UP-TO-DATE
+> Task :app:preGooglePlayDebugAndroidTestBuild SKIPPED
+> Task :app:generateGooglePlayDebugBuildConfig UP-TO-DATE
+> Task :app:generateGooglePlayDebugResources UP-TO-DATE
+> Task :app:packageGooglePlayDebugResources UP-TO-DATE
+> Task :app:javaPreCompileGooglePlayDebug UP-TO-DATE
+> Task :app:checkGooglePlayDebugAarMetadata UP-TO-DATE
+> Task :app:mapGooglePlayDebugSourceSetPaths UP-TO-DATE
+> Task :app:processGooglePlayDebugNavigationResources UP-TO-DATE
+> Task :app:parseGooglePlayDebugLocalResources UP-TO-DATE
+> Task :app:generateGooglePlayDebugRFile UP-TO-DATE
+> Task :app:mergeGooglePlayDebugResources UP-TO-DATE
+> Task :app:compileGooglePlayDebugNavigationResources UP-TO-DATE
+> Task :app:createGooglePlayDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksGooglePlayDebug UP-TO-DATE
+> Task :app:processGooglePlayDebugMainManifest UP-TO-DATE
+> Task :app:processGooglePlayDebugManifest UP-TO-DATE
+> Task :app:processGooglePlayDebugManifestForPackage UP-TO-DATE
+> Task :app:compileGooglePlayDebugKotlin UP-TO-DATE
+> Task :app:compileGooglePlayDebugJavaWithJavac UP-TO-DATE
+> Task :app:extractProguardFiles UP-TO-DATE
+> Task :app:processGooglePlayDebugResources UP-TO-DATE
+> Task :app:bundleGooglePlayDebugClassesToCompileJar UP-TO-DATE
+> Task :app:generateGooglePlayDebugAndroidTestLintModel UP-TO-DATE
+> Task :app:preGooglePlayDebugUnitTestBuild UP-TO-DATE
+> Task :app:generateGooglePlayDebugUnitTestLintModel UP-TO-DATE
+> Task :app:generateGooglePlayDebugLintReportModel UP-TO-DATE
+> Task :app:lintAnalyzeGooglePlayDebugAndroidTest UP-TO-DATE
+> Task :app:lintAnalyzeGooglePlayDebug UP-TO-DATE
+> Task :app:lintAnalyzeGooglePlayDebugUnitTest UP-TO-DATE
+> Task :app:lintReportGooglePlayDebug UP-TO-DATE
+> Task :app:lintGooglePlayDebug
+> Task :app:lint
+
+BUILD SUCCESSFUL in 1s
+29 actionable tasks: 1 executed, 28 up-to-date
+Configuration cache entry reused.
+exit: 0
