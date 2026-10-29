@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +35,7 @@ class MarkdownDirectionTest {
     @Test
     fun mixedParagraphsAndListItemsFollowTheirOwnTextInBothRenderers() {
         val streaming = mutableStateOf(false)
-        val content = "مرحبا بالعالم\n\nHello world\n\n- عنصر عربي\n- English item"
+        val content = "# عنوان أول\n\n## عنوان ثان\n\n### عنوان ثالث\n\n#### عنوان رابع\n\n##### عنوان خامس\n\n###### عنوان سادس\n\nعنوان سابع\n========\n\nعنوان ثامن\n--------\n\nمرحبا بالعالم\n\nHello world\n\n- عنصر عربي\n- English item\n\nاستخدم `git status --short` الآن\n\n```text\n./tool --help\n```"
         compose.setContent {
             // Exercise the neutral fallback independently of the device layout direction.
             CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
@@ -53,6 +54,18 @@ class MarkdownDirectionTest {
         repeat(2) { pass ->
             if (pass == 1) compose.runOnIdle { streaming.value = true }
             compose.waitForIdle()
+            listOf("عنوان أول", "عنوان ثان", "عنوان ثالث", "عنوان رابع", "عنوان خامس", "عنوان سادس", "عنوان سابع", "عنوان ثامن").forEach {
+                assertDirection(it, ResolvedTextDirection.Rtl)
+                assertEquals("heading fills the bubble: $it", with(compose.density) { 300.dp.roundToPx() }, textLayout(it).size.width)
+            }
+            assertDirection("./tool --help", ResolvedTextDirection.Ltr)
+            val inline = textLayout("git status --short", substring = true)
+            val inlineText = inline.layoutInput.text.text
+            val start = inlineText.indexOf("git status --short")
+            assertTrue("inline code remains between LTR isolation controls", start > 0 &&
+                inlineText[start - 1] == '\u2066' && inlineText[start + "git status --short".length] == '\u2069')
+            assertEquals(ResolvedTextDirection.Ltr, inline.getBidiRunDirection(start))
+            assertEquals(ResolvedTextDirection.Ltr, inline.getBidiRunDirection(start + "git status --short".length - 1))
             assertDirection("مرحبا بالعالم", ResolvedTextDirection.Rtl)
             assertDirection("Hello world", ResolvedTextDirection.Ltr)
             assertDirection("عنصر عربي", ResolvedTextDirection.Rtl)
@@ -61,13 +74,7 @@ class MarkdownDirectionTest {
     }
 
     private fun assertDirection(text: String, direction: ResolvedTextDirection) {
-        compose.waitUntil(timeoutMillis = 10_000) {
-            compose.onAllNodesWithText(text, useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty()
-        }
-        val layouts = mutableListOf<TextLayoutResult>()
-        compose.onNodeWithText(text, useUnmergedTree = true)
-            .performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(layouts) }
-        val layout = layouts.single()
+        val layout = textLayout(text)
         assertEquals(text, direction, layout.getParagraphDirection(0))
         if (direction == ResolvedTextDirection.Rtl) {
             assertEquals(text, layout.size.width.toFloat(), layout.getLineRight(0), 1f)
@@ -75,4 +82,14 @@ class MarkdownDirectionTest {
             assertEquals(text, 0f, layout.getLineLeft(0), 1f)
         }
     }
+    private fun textLayout(text: String, substring: Boolean = false): TextLayoutResult {
+        compose.waitUntil(timeoutMillis = 10_000) {
+            compose.onAllNodesWithText(text, substring = substring, useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty()
+        }
+        val layouts = mutableListOf<TextLayoutResult>()
+        compose.onNodeWithText(text, substring = substring, useUnmergedTree = true)
+            .performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(layouts) }
+        return layouts.single()
+    }
+
 }

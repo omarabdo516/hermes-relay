@@ -32,10 +32,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -61,6 +63,7 @@ import com.mikepenz.markdown.compose.elements.material.MarkdownBasicText
 import com.mikepenz.markdown.utils.getUnescapedTextInNode
 import com.mikepenz.markdown.compose.LocalMarkdownColors
 import com.mikepenz.markdown.compose.LocalMarkdownDimens
+import com.mikepenz.markdown.compose.elements.MarkdownText
 import com.mikepenz.markdown.compose.elements.MarkdownParagraph
 import com.mikepenz.markdown.compose.elements.MarkdownDivider
 import com.mikepenz.markdown.compose.elements.MarkdownTable
@@ -87,6 +90,22 @@ import org.intellij.markdown.flavours.gfm.GFMElementTypes.HEADER
 import org.intellij.markdown.flavours.gfm.GFMElementTypes.ROW
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes.CELL
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes.TABLE_SEPARATOR
+
+@Composable
+private fun DirectionalMarkdownHeading(
+    model: MarkdownComponentModel,
+    style: TextStyle,
+    hasRtl: Boolean,
+    setext: Boolean = false,
+) {
+    MarkdownText(
+        content = model.content,
+        node = model.node,
+        style = style,
+        modifier = (if (hasRtl) Modifier.fillMaxWidth() else Modifier).semantics { heading() },
+        contentChildType = if (setext) MarkdownTokenTypes.SETEXT_CONTENT else MarkdownTokenTypes.ATX_CONTENT,
+    )
+}
 
 @Composable
 fun MarkdownContent(
@@ -222,6 +241,14 @@ private fun ConfiguredMarkdownContent(
             Character.getDirectionality(it) == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC
     }
     val components = markdownComponents(
+        heading1 = { DirectionalMarkdownHeading(it, it.typography.h1, hasRtl) },
+        heading2 = { DirectionalMarkdownHeading(it, it.typography.h2, hasRtl) },
+        heading3 = { DirectionalMarkdownHeading(it, it.typography.h3, hasRtl) },
+        heading4 = { DirectionalMarkdownHeading(it, it.typography.h4, hasRtl) },
+        heading5 = { DirectionalMarkdownHeading(it, it.typography.h5, hasRtl) },
+        heading6 = { DirectionalMarkdownHeading(it, it.typography.h6, hasRtl) },
+        setextHeading1 = { DirectionalMarkdownHeading(it, it.typography.h1, hasRtl, true) },
+        setextHeading2 = { DirectionalMarkdownHeading(it, it.typography.h2, hasRtl, true) },
         paragraph = {
             MarkdownParagraph(
                 content = it.content,
