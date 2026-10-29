@@ -32,6 +32,7 @@ import com.hermesandroid.relay.network.relay.RelayHttpClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -1542,11 +1543,12 @@ class ProfileController(
      * process restart. Other profiles, connections, transports, and the server's
      * actual session/history rows are untouched.
      */
+    /** The returned job completes after the scoped session pointer is cleared. */
     fun markFreshDraft(
         connectionId: String,
         profileName: String?,
         transport: SessionTransport,
-    ) {
+    ): Job {
         val scopeKey = SessionScopeKey(connectionId, profileName, transport)
         freshDraftScopes += scopeKey
         sessionRestoreGeneration.incrementAndGet()
@@ -1556,7 +1558,7 @@ class ProfileController(
         ) {
             setLastSessionId(null)
         }
-        scope.launch {
+        return scope.launch {
             profileSessionStore.setSessionId(connectionId, profileName, transport, null)
         }
     }
