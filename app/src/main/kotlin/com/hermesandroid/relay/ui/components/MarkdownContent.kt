@@ -107,6 +107,7 @@ private fun ConfiguredMarkdownContent(
     modifier: Modifier = Modifier,
     content: String? = null,
     streamingState: StreamingMarkdownState? = null,
+    directionContent: String? = null,
 ) {
     require((content == null) != (streamingState == null)) {
         "Exactly one Markdown source must be provided"
@@ -215,7 +216,7 @@ private fun ConfiguredMarkdownContent(
     val dimens = markdownDimens(tableCellWidth = 110.dp, tableCellPadding = 12.dp)
     // Keep English-only bubbles at their existing intrinsic width. A message
     // containing RTL text needs a shared width so shorter blocks align to its edge.
-    val sourceText = content ?: streamingState?.content?.toString().orEmpty()
+    val sourceText = directionContent ?: content.orEmpty()
     val hasRtl = sourceText.any {
         Character.getDirectionality(it) == Character.DIRECTIONALITY_RIGHT_TO_LEFT ||
             Character.getDirectionality(it) == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC
@@ -487,6 +488,7 @@ private fun NativeStreamingMarkdownGeneration(
 
     ConfiguredMarkdownContent(
         streamingState = streamingState,
+        directionContent = content,
         textColor = textColor,
         modifier = modifier,
     )
