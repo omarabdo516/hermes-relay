@@ -1,0 +1,52 @@
+$ ./gradlew assembleSideloadDebug
+Reusing configuration cache.
+> Task :app:generateSideloadDebugAssets UP-TO-DATE
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preSideloadDebugBuild UP-TO-DATE
+> Task :app:generateSideloadDebugBuildConfig UP-TO-DATE
+> Task :app:mergeSideloadDebugNativeDebugMetadata NO-SOURCE
+> Task :app:javaPreCompileSideloadDebug UP-TO-DATE
+> Task :app:generateSideloadDebugResources UP-TO-DATE
+> Task :app:generateSideloadDebugGlobalSynthetics UP-TO-DATE
+> Task :app:desugarSideloadDebugFileDependencies UP-TO-DATE
+> Task :app:mapSideloadDebugSourceSetPaths UP-TO-DATE
+> Task :app:packageSideloadDebugResources UP-TO-DATE
+> Task :app:createSideloadDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksSideloadDebug UP-TO-DATE
+> Task :app:mergeSideloadDebugAssets UP-TO-DATE
+> Task :app:checkSideloadDebugAarMetadata UP-TO-DATE
+> Task :app:mergeSideloadDebugResources UP-TO-DATE
+> Task :app:mergeSideloadDebugJniLibFolders UP-TO-DATE
+> Task :app:compressSideloadDebugAssets UP-TO-DATE
+> Task :app:writeSideloadDebugAppMetadata UP-TO-DATE
+> Task :app:processSideloadDebugMainManifest UP-TO-DATE
+> Task :app:writeSideloadDebugSigningConfigVersions UP-TO-DATE
+> Task :app:processSideloadDebugManifest UP-TO-DATE
+> Task :app:processSideloadDebugManifestForPackage UP-TO-DATE
+> Task :app:processSideloadDebugNavigationResources UP-TO-DATE
+> Task :app:parseSideloadDebugLocalResources UP-TO-DATE
+> Task :app:generateSideloadDebugRFile UP-TO-DATE
+> Task :app:compileSideloadDebugNavigationResources UP-TO-DATE
+> Task :app:mergeSideloadDebugNativeLibs UP-TO-DATE
+> Task :app:stripSideloadDebugDebugSymbols UP-TO-DATE
+> Task :app:checkSideloadDebugDuplicateClasses UP-TO-DATE
+> Task :app:mergeLibDexSideloadDebug UP-TO-DATE
+> Task :app:compileSideloadDebugKotlin UP-TO-DATE
+
+> Task :app:processSideloadDebugResources UP-TO-DATE
+[=========                              ] 25%                                   
+> Task :app:compileSideloadDebugJavaWithJavac UP-TO-DATE
+> Task :app:processSideloadDebugJavaRes UP-TO-DATE
+> Task :app:validateSigningSideloadDebug
+> Task :app:dexBuilderSideloadDebug UP-TO-DATE
+> Task :app:mergeSideloadDebugJavaResource UP-TO-DATE
+> Task :app:mergeProjectDexSideloadDebug UP-TO-DATE
+> Task :app:mergeExtDexSideloadDebug UP-TO-DATE
+> Task :app:packageSideloadDebug
+> Task :app:assembleSideloadDebug
+> Task :app:createSideloadDebugApkListingFileRedirect UP-TO-DATE
+
+BUILD SUCCESSFUL in 3s
+38 actionable tasks: 2 executed, 36 up-to-date
+Configuration cache entry reused.
+exit: 0

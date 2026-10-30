@@ -1,0 +1,55 @@
+$ ./gradlew :app:testSideloadDebugUnitTest
+Starting a Gradle Daemon, 1 incompatible and 6 stopped Daemons could not be reused, use --status for details
+Calculating task graph as configuration cache cannot be reused because a build logic input of type 'IsTerminalSmartValueSource' has changed.
+Observed package id 'platforms;android-37.0' in inconsistent location '/unit/android-sdk/platforms/android-37.0-2' (Expected '/unit/android-sdk/platforms/android-37.0')
+[=========                              ] 25%                                   > Task :app:generateSideloadDebugAssets UP-TO-DATE
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preSideloadDebugBuild UP-TO-DATE
+> Task :app:javaPreCompileSideloadDebug UP-TO-DATE
+> Task :app:mapSideloadDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateSideloadDebugBuildConfig UP-TO-DATE
+> Task :app:generateSideloadDebugResources UP-TO-DATE
+> Task :app:createSideloadDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:preSideloadDebugUnitTestBuild UP-TO-DATE
+> Task :app:extractDeepLinksSideloadDebug UP-TO-DATE
+> Task :app:javaPreCompileSideloadDebugUnitTest UP-TO-DATE
+> Task :app:packageSideloadDebugResources UP-TO-DATE
+> Task :app:mergeSideloadDebugResources UP-TO-DATE
+> Task :app:mergeSideloadDebugAssets UP-TO-DATE
+> Task :app:processSideloadDebugNavigationResources UP-TO-DATE
+> Task :app:checkSideloadDebugAarMetadata UP-TO-DATE
+> Task :app:compileSideloadDebugNavigationResources UP-TO-DATE
+> Task :app:parseSideloadDebugLocalResources UP-TO-DATE
+> Task :app:generateSideloadDebugRFile UP-TO-DATE
+> Task :app:processSideloadDebugMainManifest UP-TO-DATE
+> Task :app:processSideloadDebugManifest UP-TO-DATE
+> Task :app:processSideloadDebugManifestForPackage UP-TO-DATE
+> Task :app:mergeSideloadDebugUnitTestManifest UP-TO-DATE
+> Task :app:processSideloadDebugUnitTestManifest UP-TO-DATE
+
+> Task :app:processSideloadDebugResources UP-TO-DATE
+[=========                              ] 25%                                   
+> Task :app:packageSideloadDebugUnitTestForUnitTest UP-TO-DATE
+> Task :app:generateSideloadDebugUnitTestConfig UP-TO-DATE
+> Task :app:compileSideloadDebugKotlin UP-TO-DATE
+> Task :app:compileSideloadDebugJavaWithJavac UP-TO-DATE
+> Task :app:processSideloadDebugJavaRes UP-TO-DATE
+> Task :app:bundleSideloadDebugClassesToCompileJar UP-TO-DATE
+> Task :app:bundleSideloadDebugClassesToRuntimeJar UP-TO-DATE
+> Task :app:compileSideloadDebugUnitTestKotlin UP-TO-DATE
+> Task :app:compileSideloadDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processSideloadDebugUnitTestJavaRes UP-TO-DATE
+> Task :app:testSideloadDebugUnitTest UP-TO-DATE
+
+[Incubating] Problems report is available at: file:///unit/repo/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.8.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 24s
+31 actionable tasks: 31 up-to-date
+Configuration cache entry stored.
+exit: 0

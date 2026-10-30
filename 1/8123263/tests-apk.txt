@@ -1,0 +1,2 @@
+/unit/repo/app/build/outputs/apk/sideload/debug/hermes-relay-1.19.0-sideload-debug.apk
+exit: 0

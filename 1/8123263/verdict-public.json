@@ -1,0 +1,60 @@
+{
+  "verdict": "PASS",
+  "score": 8.67,
+  "pass_score": 7.5,
+  "judge": "claude:claude-opus-5-5@medium",
+  "head_sha": "8123263e5bba2aca0c7fa3b829e562ad66c665e0",
+  "rubric": {
+    "domain": "code",
+    "version": "4"
+  },
+  "scores": [
+    {
+      "criterion": "correctness",
+      "score": 8.0
+    },
+    {
+      "criterion": "requirements",
+      "score": 9.0
+    },
+    {
+      "criterion": "tests",
+      "score": 8.0
+    },
+    {
+      "criterion": "security",
+      "score": 10.0
+    },
+    {
+      "criterion": "simplicity",
+      "score": 7.0
+    },
+    {
+      "criterion": "data",
+      "score": 10.0
+    }
+  ],
+  "findings": [
+    {
+      "severity": "minor",
+      "criterion": "correctness",
+      "title": "Bubble width switch uses any-RTL check instead of the first-strong rule"
+    },
+    {
+      "severity": "minor",
+      "criterion": "simplicity",
+      "title": "Direction rule duplicated outside the single pure helper"
+    },
+    {
+      "severity": "minor",
+      "criterion": "simplicity",
+      "title": "Unrelated test-fixture rewrites bundled in the RTL diff"
+    },
+    {
+      "severity": "minor",
+      "criterion": "requirements",
+      "title": "Builder ruling about the .rtl suffix contradicts the diff"
+    }
+  ],
+  "dropped": 0
+}
