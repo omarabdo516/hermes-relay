@@ -432,7 +432,7 @@ fun ChatInputBar(
                         ),
                         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                         decorationBox = { inner ->
-                            Box(Modifier.fillMaxWidth()) {
+                            Box(Modifier.fillMaxWidth(), propagateMinConstraints = true) {
                                 if (value.isEmpty()) {
                                     Text(
                                         text = placeholder,

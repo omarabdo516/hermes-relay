@@ -349,7 +349,8 @@ private fun DirectionalMarkdownList(model: MarkdownComponentModel, depth: Int = 
                         val handler = if (ordered) orderedHandler else bulletHandler
                         MarkdownBasicText(
                             text = AnnotatedString(handler.transform(markerType, marker, index, initialNumber, depth)),
-                            style = if (ordered) model.typography.ordered else model.typography.bullet,
+                            style = (if (ordered) model.typography.ordered else model.typography.bullet)
+                                .copy(textDirection = TextDirection.Content),
                         )
                     }
                     Column(Modifier.weight(1f)) {

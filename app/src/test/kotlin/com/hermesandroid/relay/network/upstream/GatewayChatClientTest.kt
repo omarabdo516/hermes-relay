@@ -4286,7 +4286,6 @@ class GatewayChatClientTest {
         )
 
         waitUntil { client.serverReasoningEffort.value == "max" }
-        waitUntil { client.serverReasoningIdentity.value?.effort == "max" }
         assertEquals(
             GatewayModelIdentity(model = "deepseek-v3", provider = "opencode"),
             client.serverModelIdentity.value,

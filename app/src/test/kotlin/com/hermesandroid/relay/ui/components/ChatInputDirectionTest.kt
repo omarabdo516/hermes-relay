@@ -53,9 +53,10 @@ class ChatInputDirectionTest {
         compose.onNodeWithTag(CHAT_INPUT_FIELD_TEST_TAG)
             .performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(layouts) }
         val layout = layouts.single()
+        val fieldWidth = compose.onNodeWithTag(CHAT_INPUT_FIELD_TEST_TAG).fetchSemanticsNode().size.width
         assertEquals(direction, layout.getParagraphDirection(0))
         if (direction == ResolvedTextDirection.Rtl) {
-            assertEquals(layout.size.width.toFloat(), layout.getLineRight(0), 1f)
+            assertEquals("Arabic text reaches the editor's right edge", fieldWidth.toFloat(), layout.getLineRight(0), 1f)
         } else {
             assertEquals(0f, layout.getLineLeft(0), 1f)
         }

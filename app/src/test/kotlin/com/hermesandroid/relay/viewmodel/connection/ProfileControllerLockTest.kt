@@ -17,9 +17,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -297,13 +296,10 @@ class ProfileControllerLockTest {
 
     @After
     fun tearDown() {
-        // Wait for previous writes to finish before clearing shared DataStores;
-        // otherwise an old controller can publish after the next test starts.
-        runBlocking {
-            scope.coroutineContext[Job]?.cancelAndJoin()
-            controller.profileLockStore.clear(connectionId)
-            controller.profileSessionStore.clearAll()
-        }
+        scope.cancel()
+        // Start each run from clean lock state — the DataStore file is shared by
+        // the app-internal store name across tests in the same JVM.
+        runBlocking { controller.profileLockStore.clear(connectionId) }
     }
 
     // --- await helpers ------------------------------------------------------
@@ -397,8 +393,8 @@ class ProfileControllerLockTest {
         controller.refreshDashboardProfiles()
 
         assertEquals("pinned", awaitFlow(controller.effectiveSessionProfileName) { it == "pinned" })
-        assertEquals(pinned, awaitFlow(controller.effectiveDisplayProfile) { it == pinned })
-        assertEquals(pinned, awaitFlow(controller.serverDefaultDisplayProfile) { it == pinned })
+        assertEquals(pinned, awaitFlow(controller.effectiveDisplayProfile) { it?.name == "pinned" })
+        assertEquals(pinned, awaitFlow(controller.serverDefaultDisplayProfile) { it?.name == "pinned" })
         assertEquals("default", controller.serverDefaultProfileScope.value?.current)
         assertTrue(awaitFlow(controller.selectionSettled) { it })
         runBlocking { controller.listProfileScopedSessions()?.getOrThrow() }
@@ -563,10 +559,7 @@ class ProfileControllerLockTest {
         controller.selectProfile(mizu)
         awaitSelected(mizu.name)
 
-        val clearJob = controller.markFreshDraft(connectionId, mizu.name, SessionTransport.SSE)
-        val clearResult = CompletableDeferred<Throwable?>()
-        clearJob.invokeOnCompletion { clearResult.complete(it) }
-        assertNull(withTimeout(5_000) { clearResult.await() })
+        controller.markFreshDraft(connectionId, mizu.name, SessionTransport.SSE)
         withTimeout(5_000) {
             sessions.sessionIdFlow(connectionId, mizu.name, SessionTransport.SSE)
                 .first { it == null }

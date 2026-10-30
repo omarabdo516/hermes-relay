@@ -46,12 +46,6 @@ Android workflow from the selected `dev` ref.
 
 ## Local use
 
-If the SDK selected by `ANDROID_HOME` is read-only and is missing a required
-component, install the required Android SDK packages in a writable SDK and set
-`sdk.dir` in the root `local.properties` to that SDK's absolute path. Gradle
-uses this local setting for the project; keep the machine-specific file
-untracked. Then rerun the original verification command.
-
 ### Startup appearance regression
 
 Run `StartupLoadingThemeTest` through the lane for loading-cover palette and
