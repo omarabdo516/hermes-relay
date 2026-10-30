@@ -133,7 +133,7 @@ android {
         }
         create("sideload") {
             dimension = "track"
-            applicationIdSuffix = ".sideload"
+            applicationIdSuffix = ".sideload.rtl"
             versionNameSuffix = "-sideload"
         }
     }
