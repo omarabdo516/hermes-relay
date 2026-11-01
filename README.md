@@ -1,0 +1,1 @@
+Screenshots for the RTL message-direction pull request to Codename-11/hermes-relay. Rendered by ChatRtlScreenshotTest (Robolectric API 36, en-US, 360x800dp, xhdpi, dark theme) in GitHub Actions run 41332456007.
