@@ -91,6 +91,16 @@ import org.intellij.markdown.flavours.gfm.GFMElementTypes.ROW
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes.CELL
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes.TABLE_SEPARATOR
 
+// Resolve direction before inline code is isolated, so its first strong character
+// participates in the same decision used for list markers.
+private fun TextStyle.withContentDirection(model: MarkdownComponentModel): TextStyle = copy(
+    textDirection = if (isRtlText(model.node.getUnescapedTextInNode(model.content))) {
+        TextDirection.Rtl
+    } else {
+        TextDirection.Ltr
+    },
+)
+
 @Composable
 private fun DirectionalMarkdownHeading(
     model: MarkdownComponentModel,
@@ -101,7 +111,7 @@ private fun DirectionalMarkdownHeading(
     MarkdownText(
         content = model.content,
         node = model.node,
-        style = style,
+        style = style.withContentDirection(model),
         modifier = (if (hasRtl) Modifier.fillMaxWidth() else Modifier).semantics { heading() },
         contentChildType = if (setext) MarkdownTokenTypes.SETEXT_CONTENT else MarkdownTokenTypes.ATX_CONTENT,
     )
@@ -254,7 +264,7 @@ private fun ConfiguredMarkdownContent(
                 content = it.content,
                 node = it.node,
                 modifier = if (hasRtl) Modifier.fillMaxWidth() else Modifier,
-                style = it.typography.paragraph,
+                style = it.typography.paragraph.withContentDirection(it),
             )
         },
         codeBlock = {

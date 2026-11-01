@@ -73,6 +73,42 @@ class MarkdownDirectionTest {
         }
     }
 
+    @Test
+    fun inlineCodeAtStartDeterminesParagraphAndListDirection() {
+        val streaming = mutableStateOf(false)
+        val content = "`git pull` لتحديث الفرع\n\n# `git status` حالة\n\n- `git pull` لتحديث الفرع\n- مرحبا `git status`"
+        compose.setContent {
+            MaterialTheme {
+                Column(Modifier.width(300.dp)) {
+                    if (streaming.value) StreamingMarkdownContent(content, Color.Black)
+                    else MarkdownContent(content, Color.Black)
+                }
+            }
+        }
+        repeat(2) { pass ->
+            if (pass == 1) compose.runOnIdle { streaming.value = true }
+            listOf("git pull", "git status").forEach { code ->
+                compose.waitUntil(timeoutMillis = 10_000) {
+                    compose.onAllNodesWithText(code, substring = true, useUnmergedTree = true)
+                        .fetchSemanticsNodes().size >= 2
+                }
+            }
+            val layouts = mutableListOf<TextLayoutResult>()
+            compose.onAllNodesWithText("git pull", substring = true, useUnmergedTree = true)
+                .fetchSemanticsNodes().indices.forEach { index ->
+                    compose.onAllNodesWithText("git pull", substring = true, useUnmergedTree = true)[index]
+                        .performSemanticsAction(SemanticsActions.GetTextLayoutResult) { it(layouts) }
+                }
+            assertEquals(2, layouts.size)
+            layouts.forEach { layout ->
+                assertEquals(ResolvedTextDirection.Ltr, layout.getParagraphDirection(0))
+                assertEquals(0f, layout.getLineLeft(0), 1f)
+            }
+            val heading = textLayout("حالة", substring = true)
+            assertEquals(ResolvedTextDirection.Ltr, heading.getParagraphDirection(0))
+        }
+    }
+
     private fun assertDirection(text: String, direction: ResolvedTextDirection) {
         val layout = textLayout(text)
         assertEquals(text, direction, layout.getParagraphDirection(0))
