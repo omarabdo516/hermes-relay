@@ -46,6 +46,19 @@ Android workflow from the selected `dev` ref.
 
 ## Local use
 
+If the SDK selected by `ANDROID_HOME` is read-only or lacks a required
+component, install the required packages into a writable SDK. Set `sdk.dir`
+in the root `local.properties` to that SDK’s absolute path; this setting
+takes precedence for the project. Keep that machine-specific file untracked,
+then rerun the original verification command. For example, on a POSIX shell when `local.properties` does not already exist:
+
+```sh
+test ! -e local.properties && printf 'sdk.dir=%s\n' "$ANDROID_HOME" > local.properties
+./gradlew :app:testSideloadDebugUnitTest
+```
+
+Set `ANDROID_HOME` to the writable SDK before running this example.
+
 ### Startup appearance regression
 
 Run `StartupLoadingThemeTest` through the lane for loading-cover palette and

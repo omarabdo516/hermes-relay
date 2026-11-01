@@ -153,6 +153,7 @@ android {
 
     buildTypes {
         debug {
+            if (providers.gradleProperty("forkRtl").orNull == "true") applicationIdSuffix = ".rtl"
             buildConfigField("boolean", "DEV_MODE", "true")
         }
         release {
