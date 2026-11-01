@@ -1,0 +1,50 @@
+{
+  "verdict": "PASS",
+  "score": 7.67,
+  "pass_score": 7.5,
+  "judge": "claude:claude-opus-5-5@medium",
+  "head_sha": "fe46b2d9622095427845cb64572be797b2939a51",
+  "rubric": {
+    "domain": "code",
+    "version": "4"
+  },
+  "scores": [
+    {
+      "criterion": "correctness",
+      "score": 8.0
+    },
+    {
+      "criterion": "requirements",
+      "score": 6.0
+    },
+    {
+      "criterion": "tests",
+      "score": 7.0
+    },
+    {
+      "criterion": "security",
+      "score": 10.0
+    },
+    {
+      "criterion": "simplicity",
+      "score": 6.0
+    },
+    {
+      "criterion": "data",
+      "score": 10.0
+    }
+  ],
+  "findings": [
+    {
+      "severity": "major",
+      "criterion": "requirements",
+      "title": "No evidence that `./gradlew assembleDebug` exits 0"
+    },
+    {
+      "severity": "minor",
+      "criterion": "simplicity",
+      "title": "Unrelated test and docs changes bundled into the upstream-bound diff"
+    }
+  ],
+  "dropped": 0
+}
