@@ -1,0 +1,73 @@
+name: Fork RTL evidence
+
+on:
+  push:
+    branches: [ci/rtl-evidence]
+
+permissions:
+  contents: read
+
+env:
+  FORK_SHA: 6f615df52d09ae0bb12619d0f709759f99fe52ce
+  UPSTREAM_PR_SHA: 6bff0af0a95ac939dc3f447e09c40947dc115853
+  BEFORE_SHA: a006faad30b14d1168530a277ce8f56bdb858490
+
+jobs:
+  apk:
+    name: Fork sideload debug APK (.rtl)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.FORK_SHA }}
+      - uses: actions/setup-java@v6
+        with: { distribution: temurin, java-version: 17 }
+      - uses: gradle/actions/setup-gradle@v6.4.0
+        with: { cache-read-only: true }
+      - run: ./gradlew assembleSideloadDebug -PforkRtl=true --console=plain
+      - name: Show application id
+        run: |
+          apk=$(ls app/build/outputs/apk/sideload/debug/*.apk | head -1)
+          aapt=$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | tail -1)
+          "$aapt" dump badging "$apk" | head -3
+          sha256sum app/build/outputs/apk/sideload/debug/*.apk
+      - uses: actions/upload-artifact@v7
+        with:
+          name: sideload-debug-rtl-apk
+          path: app/build/outputs/apk/sideload/debug/*.apk
+          if-no-files-found: error
+          retention-days: 14
+
+  shots:
+    name: Screenshots (${{ matrix.side }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        side: [before, after]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ env.UPSTREAM_PR_SHA }}
+          path: pr
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ matrix.side == 'before' && env.BEFORE_SHA || env.UPSTREAM_PR_SHA }}
+          repository: ${{ matrix.side == 'before' && 'Codename-11/hermes-relay' || github.repository }}
+          path: src
+      - name: Use the PR's capture test on both sides
+        run: cp pr/app/src/test/kotlin/com/hermesandroid/relay/screenshots/ChatRtlScreenshotTest.kt src/app/src/test/kotlin/com/hermesandroid/relay/screenshots/
+      - uses: actions/setup-java@v6
+        with: { distribution: temurin, java-version: 17 }
+      - uses: gradle/actions/setup-gradle@v6.4.0
+        with: { cache-read-only: true }
+      - working-directory: src
+        run: ./gradlew :app:testSideloadDebugUnitTest --tests 'com.hermesandroid.relay.screenshots.ChatRtlScreenshotTest' --console=plain
+      - uses: actions/upload-artifact@v7
+        with:
+          name: shots-${{ matrix.side }}
+          path: src/app/build/ui-evidence/chat-rtl/*.png
+          if-no-files-found: error
+          retention-days: 14
