@@ -1,0 +1,50 @@
+{
+  "verdict": "PASS",
+  "score": 8.67,
+  "pass_score": 7.5,
+  "judge": "claude:claude-opus-5-5@medium",
+  "head_sha": "8b3887aada5787866c9c1be01159a8ab80c3a898",
+  "rubric": {
+    "domain": "code",
+    "version": "4"
+  },
+  "scores": [
+    {
+      "criterion": "correctness",
+      "score": 9.0
+    },
+    {
+      "criterion": "requirements",
+      "score": 8.0
+    },
+    {
+      "criterion": "tests",
+      "score": 8.0
+    },
+    {
+      "criterion": "security",
+      "score": 10.0
+    },
+    {
+      "criterion": "simplicity",
+      "score": 7.0
+    },
+    {
+      "criterion": "data",
+      "score": 10.0
+    }
+  ],
+  "findings": [
+    {
+      "severity": "major",
+      "criterion": "requirements",
+      "title": "Fork-only .rtl suffix is off by default, so the fork's CI APK keeps the official sideload ID"
+    },
+    {
+      "severity": "minor",
+      "criterion": "simplicity",
+      "title": "Unrelated async test-fixture repairs and SDK docs are mixed into the RTL change on this branch"
+    }
+  ],
+  "dropped": 0
+}
