@@ -63,5 +63,6 @@ jobs:
       judge_actors: 'omarabdo516,omar-kitchen[bot]'
     secrets:
       CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      CLAUDE_CODE_OAUTH_TOKEN_BACKUP: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_BACKUP }}
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       HERMES_MERGE_GATE_PRIVATE_KEY: ${{ secrets.HERMES_MERGE_GATE_PRIVATE_KEY }}
